@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  const StartScreen(this.switchScreen, {super.key});
+
+  final void Function() switchScreen;
 
   @override
   Widget build(context) {
@@ -35,7 +37,9 @@ class StartScreen extends StatelessWidget {
           ),
           OutlinedButton.icon(
             icon: const Icon(Icons.outbond_rounded),
-            onPressed: () {},
+            onPressed: () {
+              switchScreen();
+            },
             style: OutlinedButton.styleFrom(
               elevation: 18,
               backgroundColor: const Color.fromARGB(255, 187, 51, 246),

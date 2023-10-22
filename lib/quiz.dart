@@ -1,25 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_quizapp/result_screen.dart';
 import 'package:flutter_project_quizapp/start_screen.dart';
+import 'package:flutter_project_quizapp/question_screen.dart';
+import 'package:flutter_project_quizapp/data/question_list.dart';
 
-class Quiz extends StatefulWidget{
-  const Quiz({super.key});
+//main widget which manage's all!
+class Quiz extends StatefulWidget {
+  const Quiz({super.key}); //get the functionality of parent class
 
   @override
-  State<Quiz> createState(){
+  State<Quiz> createState() {
     return _QuizState();
   }
 }
 
-class _QuizState extends State<Quiz>{
+class _QuizState extends State<Quiz> {
+  List<String> selectAnswer = [];
+  var activeScreen = 'start';
+
+  // @override
+  // Called when this object is inserted into the tree/after obj creation.
+  // void initState() {
+  //   super.initState();
+  //   activeScreen = StartScreen(switchScreen); //fun as an argument wow!
+  // }
+
+  void switchScreen() {
+    setState(() {
+      activeScreen = 'question'; //internal state of the obj changed
+    });
+  }
+
+  void chooseAnswer(answer){
+    selectAnswer.add(answer);
+    print(answer);
+
+    //to stop the execution
+    if(selectAnswer.length == questions.length){
+      setState(() {
+        // selectAnswer = [];
+        activeScreen = 'result';
+      });
+    }
+
+  }
 
   @override
   Widget build(context) {
+    Widget screenwidget = StartScreen(switchScreen);
+    if(activeScreen == 'question'){
+      screenwidget = QuestionScreen(onselectAnswer: chooseAnswer);
+    }
+    else if(activeScreen == 'result'){
+      screenwidget = ResultScreen(chooseAnswer: selectAnswer);
+    }
+
     return MaterialApp(
       title: "Quiz App",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 162, 14, 178),
-        ),
+        // colorScheme: ColorScheme.fromSeed(
+        //   seedColor: Color.fromARGB(255, 212, 123, 222),
+        // ),
 
         // textTheme: const TextTheme(
         //   displayLarge: TextStyle(
@@ -28,10 +69,15 @@ class _QuizState extends State<Quiz>{
         //   ),
         // ),
       ),
-
-      home: const Scaffold(
-        backgroundColor:Color.fromARGB(255, 162, 14, 178),
-        body: StartScreen(),
+      home: Scaffold(
+        backgroundColor:const Color.fromARGB(255, 162, 14, 178),
+        body: Container(
+          //ternary operator can be used
+          // child: activeScreen == "start"
+          //     ? StartScreen(switchScreen)
+          //     : const QuestionScreen(),
+          child: screenwidget,
+        ),
       ),
     );
   }
