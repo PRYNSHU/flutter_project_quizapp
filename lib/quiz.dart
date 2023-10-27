@@ -4,7 +4,7 @@ import 'package:flutter_project_quizapp/start_screen.dart';
 import 'package:flutter_project_quizapp/question_screen.dart';
 import 'package:flutter_project_quizapp/data/question_list.dart';
 
-//main widget which manage's all!
+//main widget which manage's question and start screen
 class Quiz extends StatefulWidget {
   const Quiz({super.key}); //get the functionality of parent class
 
@@ -47,10 +47,13 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(context) {
-    Widget screenwidget = StartScreen(switchScreen);
+    Widget screenwidget = StartScreen(switchScreen); //switchscreen as value
+    
+    //change to question screen
     if(activeScreen == 'question'){
       screenwidget = QuestionScreen(onselectAnswer: chooseAnswer);
     }
+    //change to result screen
     else if(activeScreen == 'result'){
       screenwidget = ResultScreen(chooseAnswer: selectAnswer);
     }
