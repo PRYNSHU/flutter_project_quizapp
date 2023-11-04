@@ -31,49 +31,58 @@ class _QuizState extends State<Quiz> {
     });
   }
 
-  void chooseAnswer(answer){
+  void resetAns(){
+    setState(() {
+      selectAnswer = [];
+    });
+  }
+
+  void chooseAnswer(answer) {
     selectAnswer.add(answer);
-    print(answer);
+    // print(answer);
 
     //to stop the execution
-    if(selectAnswer.length == questions.length){
+    if (selectAnswer.length == questions.length) {
       setState(() {
         // selectAnswer = [];
         activeScreen = 'result';
       });
     }
-
   }
 
   @override
   Widget build(context) {
     Widget screenwidget = StartScreen(switchScreen); //switchscreen as value
-    
+
     //change to question screen
-    if(activeScreen == 'question'){
+    if (activeScreen == 'question') {
       screenwidget = QuestionScreen(onselectAnswer: chooseAnswer);
     }
     //change to result screen
-    else if(activeScreen == 'result'){
-      screenwidget = ResultScreen(chooseAnswer: selectAnswer);
+    else if (activeScreen == 'result') {
+      screenwidget = ResultScreen(
+        chooseAnswer: selectAnswer,
+        changeScreen: switchScreen,
+        reset: resetAns,
+      );
     }
 
     return MaterialApp(
       title: "Quiz App",
       theme: ThemeData(
-        // colorScheme: ColorScheme.fromSeed(
-        //   seedColor: Color.fromARGB(255, 212, 123, 222),
-        // ),
+          // colorScheme: ColorScheme.fromSeed(
+          //   seedColor: Color.fromARGB(255, 212, 123, 222),
+          // ),
 
-        // textTheme: const TextTheme(
-        //   displayLarge: TextStyle(
-        //     fontSize: 18,
-        //     fontWeight: FontWeight.bold,
-        //   ),
-        // ),
-      ),
+          // textTheme: const TextTheme(
+          //   displayLarge: TextStyle(
+          //     fontSize: 18,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          ),
       home: Scaffold(
-        backgroundColor:const Color.fromARGB(255, 162, 14, 178),
+        backgroundColor: const Color.fromARGB(255, 162, 14, 178),
         body: Container(
           //ternary operator can be used
           // child: activeScreen == "start"
